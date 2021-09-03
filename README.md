@@ -14,3 +14,13 @@ error.
 We think that contour needs to be told explicitly not to 'timeout' such request. 
 Perhaps this is done by configuring contour globally, or via some special
 annotations on the k8s ingress resources.
+
+## Conclusion:
+
+The key seems to be adding an annotation on the ingress as follows:
+
+```
+projectcontour.io/response-timeout: "infinity"
+```
+
+See: https://github.com/kdvolder/sse-demo/blob/master/k8s/ingress.yml#L12
