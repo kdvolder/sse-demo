@@ -20,8 +20,14 @@ public class SseDemoApplication {
 		SpringApplication.run(SseDemoApplication.class, args);
 	}
 
+	@GetMapping(value="/")
+	public String hello() {
+		return "Hello world!";
+	}
+	
+
 	@GetMapping(value = "/timestamps", produces = { MediaType.TEXT_EVENT_STREAM_VALUE })
-	public Flux<Stamp> getAppEventStream(@RequestParam int d) {
+	public Flux<Stamp> getAppEventStream(@RequestParam(required=false, defaultValue = "3") int d) {
 		return Mono.fromCallable(Stamp::now).delaySubscription(Duration.ofSeconds(d)).repeat();
 	}
 

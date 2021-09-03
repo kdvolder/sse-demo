@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+    kubernetes.io/ingress.class: contour
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    projectcontour.io/response-timeout: "infinity"
+    projectcontour.io/websocket-routes: /
+  name: sse-demo-ingress
+  namespace: default
+spec:
+  rules:
+  - host: sse-demo.springone2021-alv-a3d4d57.tanzu-labs.esp.vmware.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: sse-demo
+            port:
+              number: 8080
+        path: /
+        pathType: ImplementationSpecific
+  tls:
+  - hosts:
+    - sse-demo.springone2021-alv-a3d4d57.tanzu-labs.esp.vmware.com
+    secretName: eduk8s-wildcard-tls
+status:
+  loadBalancer:
+    ingress:
+    - hostname: a00240f59599b4c8c9e247f0253a0c2e-1568886262.us-east-2.elb.amazonaws.com
